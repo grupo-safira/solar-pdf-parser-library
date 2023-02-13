@@ -22,7 +22,7 @@
   "homepage": "https://github.com/safiradigital/pdf-parser-library#readme",
   "dependencies": {
     "jsonpath": "^1.1.1",
-    "pdf2json": "^3.0.2",
+    "pdf2json": "^2.0.1",
     "query-string": "^8.1.0"
   },
   "devDependencies": {

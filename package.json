@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Pdf parser to read Cemig Bill",
   "main": "index.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@safirasolar"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

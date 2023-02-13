@@ -81,8 +81,8 @@ function getDataOfCoordinate(
       .replace(/\s{2,}/, ";");
   });
   let colPos = 0;
-  for (let titulo of arrData[0].split(";")) {
-    if (titulo.toUpperCase().indexOf(title) === 0) {
+  for (let title of arrData[0].split(";")) {
+    if (title.toUpperCase().indexOf(title) === 0) {
       break;
     }
     colPos++;

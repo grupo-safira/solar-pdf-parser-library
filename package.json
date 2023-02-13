@@ -1,0 +1,29 @@
+{
+  "name": "@safiradigital/pdf-parser-library",
+  "version": "1.0.0",
+  "description": "Pdf parser to read Cemig Bill",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/safiradigital/pdf-parser-library.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/safiradigital/pdf-parser-library/issues"
+  },
+  "homepage": "https://github.com/safiradigital/pdf-parser-library#readme",
+  "dependencies": {
+    "jsonpath": "^1.1.1",
+    "pdf2json": "^3.0.2",
+    "query-string": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/jsonpath": "^0.2.0",
+    "@types/node": "^18.13.0"
+  }
+}

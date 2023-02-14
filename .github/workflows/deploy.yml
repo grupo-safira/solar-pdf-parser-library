@@ -1,26 +1,14 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: 
+      - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: npm ci
-      - run: npm test
-
   publish-gpr:
-    needs: build
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
+    needs: build
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -29,8 +17,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@safiradigital'
       - name: Configure npm
-      - run: npm ci
-      - run: npm login --registry=https://npm.pkg.github.com
-      - run: npm publish dist/pdf-parser-library/
+      - run: npm install
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

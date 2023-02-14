@@ -28,8 +28,9 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           scope: '@safiradigital'
-          - name: Configure npm
+      - name: Configure npm
       - run: npm ci
+      - run: npm login --registry=https://npm.pkg.github.com
       - run: npm publish dist/pdf-parser-library/
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

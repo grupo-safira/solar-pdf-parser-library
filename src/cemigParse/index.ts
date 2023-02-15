@@ -71,7 +71,7 @@ function getDataOfCoordinate(
     .sort((a: any, b: any) => {
       if (parseFloat(a.y) < parseFloat(b.y)) return -1;
       if (parseFloat(a.y) > parseFloat(b.y)) return 1;
-      if (parseFloat(a.y) == parseFloat(b.y)) return 0;
+      if (parseFloat(a.y) == parseFloat(b.y)) return 0
       return 0
     });
   let arrData = x.map((e: any) => {

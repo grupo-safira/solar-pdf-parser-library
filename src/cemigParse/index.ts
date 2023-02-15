@@ -23,11 +23,11 @@ export function getHolderDocument(page: any) {
 }
 
 export function getInstallationNumber(page: any) {
-  return getDataOfCoordinate(page, 16, 17, 46, 47, "INSTALAÇÃO");
+  return getHolderData(page, 16, 17, 46, 47, 1);
 }
 
 export function getSubClass(page:any){
-    return getHolderData(page, 9, 14, 9, 12)
+    return getHolderData(page, 9, 14, 9, 12, 1)
 }
 
 export function getMonthHistory(page: any) {
@@ -55,40 +55,6 @@ function getAddress(
   );
   return queryString.unescape(x[0].R[0].T).trim();
 }
-function getDataOfCoordinate(
-  page0: any,
-  xInicial: number,
-  xFinal: number,
-  yInicial: number,
-  yFinal: number,
-  title: string
-): any {
-  let x = jsonPath
-    .query(
-      page0,
-      `$..[?(@.y >= ${yInicial} && @.y <= ${yFinal} && @.x >= ${xInicial} && @.x <= ${xFinal})]`
-    )
-    .sort((a: any, b: any) => {
-      if (parseFloat(a.y) < parseFloat(b.y)) return -1;
-      if (parseFloat(a.y) > parseFloat(b.y)) return 1;
-      if (parseFloat(a.y) == parseFloat(b.y)) return 0
-      return 0
-    });
-  let arrData = x.map((e: any) => {
-    return queryString
-      .unescape(e.R[0].T)
-      .trim()
-      .replace(/\s{2,}/, ";");
-  });
-  let colPos = 0;
-  for (let title of arrData[0].split(";")) {
-    if (title.toUpperCase().indexOf(title) === 0) {
-      break;
-    }
-    colPos++;
-  }
-  return arrData[1].split(";")[colPos];
-}
 
 function getColumn(
   page: any,
@@ -97,13 +63,12 @@ function getColumn(
   yInicial: number,
   yFinal: number
 ): string[] {
-  let page0 = jsonPath.query(page, "$.Pages[0].Texts");
   let x = jsonPath.query(
-    page0,
+    page,
     `$..[?(@.y >= ${yInicial} && @.y <= ${yFinal} && @.x >= ${xInicial} && @.x <= ${xFinal})]`
   );
   return x.map((month: any) => {
-    return decodeURI(month.R[0].T).trim();
+    return queryString.unescape(month.R[0].T).trim();
   });
 }
 
@@ -112,7 +77,8 @@ function getHolderData(
   xInicial: number,
   xFinal: number,
   yInicial: number,
-  yFinal: number
+  yFinal: number,
+  index?: number
 ): string {
   let x = jsonPath.query(
     page0,
@@ -121,9 +87,44 @@ function getHolderData(
   if (!x.length) {
     return "";
   }
-
-  return queryString.unescape(x[0].R[0].T).trim();
+  if (x.length > 2) {
+    //Possible is subclass
+    const one = queryString.unescape(x[1].R[0].T).trim();
+    const two = queryString.unescape(x[2].R[0].T).trim();
+    return `${one} ${two}`;
 }
+  return queryString.unescape(x[index || 0].R[0].T).trim();
+}
+
+
+
+function getDataEmissao(page0: any, xInicial: number, xFinal: number, yInicial: number, yFinal: number): string {
+  let x = jsonPath.query(page0, `$..[?(@.y >= ${yInicial} && @.y <= ${yFinal} && @.x >= ${xInicial} && @.x <= ${xFinal})]`).sort(
+      (a:any, b:any) => {
+          if (parseFloat(a.y) < parseFloat(b.y)) return -1;
+          if (parseFloat(a.y) > parseFloat(b.y)) return 1;
+          if (parseFloat(a.y) == parseFloat(b.y)) return 0;
+          return 0
+      }
+  );
+  let arrDados = x.map(
+      (e: any) => {
+          return queryString.unescape(e.R[0].T).trim();
+      }
+  );
+  let dataEmissao = '';
+  for (let dado of arrDados) {
+      if (dado.toUpperCase().indexOf('DATA DE EMISSÃO') === -1) {
+          continue;
+      } else {
+          let linhaDataEmissao = dado.toUpperCase();
+          dataEmissao = linhaDataEmissao.replace('DATA DE EMISSÃO:','').trim();
+      }
+
+  }
+  return dataEmissao;
+}
+
 
 export function parsePdf(pdfPath: string): any {
   const promise = new Promise((resolve, reject) => {
@@ -155,25 +156,22 @@ export function parsePdf(pdfPath: string): any {
         const consumer_unit = getInstallationNumber(page0);
         const installation_number = consumer_unit;
         const subclassTemp = getSubClass(page0);
-        const subclass = subclassTemp ? subclassTemp : "";
+        const subclasse = subclassTemp ? subclassTemp : "";
 
         const rateTemp = getHolderData(page0, 15, 16, 14.5, 15.5);
-        const rate =
+        const tarifa =
         rateTemp.length > 0 ? Number(rateTemp.replace(",", ".")) : 0;
 
-        const consumerUnitClass = getHolderData(page0, 4, 5, 11.5, 12.5);
+        const classe = getHolderData(page0, 4, 5, 11.5, 12.5);
         const nextReadTemp = getHolderData(page0, 33, 34, 11.5, 12);
-        const emissionDate = getHolderData(page0, 20, 21, 5.5, 6.5).replace(
-          "Data de emissão: ",
-          ""
-        );
+        const emissionDate = getDataEmissao(page0, 20, 21, 5, 9)
 
         let emissionYear = Number(emissionDate.split("/")[2]);
         const emissionMonth = Number(emissionDate.split("/")[1]);
         const nextMonth = Number(nextReadTemp.split("/")[1]);
 
         if (nextMonth < emissionMonth) emissionYear++;
-        const nextRead = nextReadTemp + "/" + emissionYear.toString();
+        const next_read = nextReadTemp + "/" + emissionYear.toString();
 
         const historyMonths = getMonthHistory(page0);
 
@@ -211,16 +209,16 @@ export function parsePdf(pdfPath: string): any {
           city,
           state,
           cpf,
-          rate,
-          consumerUnitClass,
+          tarifa,
+          classe,
           consumer_unit,
           installation_number,
-          subclass,
+          subclasse,
           history,
-          nextRead,
+          next_read,
           amountReg,
           hasInjection,
-        };
+      }
         resolve(ConsumerUnit);
       } catch (e: any) {
         console.log(

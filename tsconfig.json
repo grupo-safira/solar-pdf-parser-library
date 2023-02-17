@@ -1,14 +1,15 @@
 {
     "compilerOptions": {
-      "module": "CommonJS",
+      "module": "commonjs",
       "moduleResolution": "node",
       "noUnusedLocals": true,
       "outDir": "lib",
       "declaration": true,
       "sourceMap": true,
       "strict": true,
-      "target": "ES6",
+      "target": "es2017",
       "baseUrl": "src",
+      
     },
     "compileOnSave": true,
   }

@@ -4,7 +4,10 @@ import { TFileToParse } from "models/cemigParse.model";
 
 export function getTariffFlag(page: TFileToParse) {
   const generalInfo = getGeneralInfo(page);
-  const flagLine = generalInfo.split(".br.")[1] || generalInfo.split("c/c.")[1] || generalInfo.split("local.")[1];
+  const flagLine =
+    generalInfo.split(".br.")[1] ||
+    generalInfo.split("c/c.")[1] ||
+    generalInfo.split("local.")[1];
   const flags = {
     current: flagLine.split("-")[0].trim(),
     previous: flagLine.split("-")[1].trim(),
@@ -43,6 +46,7 @@ function getGeneralInfo(page: TFileToParse): string {
 export function getGenerationBalance(page: TFileToParse) {
   const generalInfo = getGeneralInfo(page);
   const balanceLine = generalInfo.split("kWh")[0];
+  if (balanceLine) return 0;
   const generationBalanceTreatment = parseFloat(
     balanceLine.split(":")[1].replace(".", "").replace(",", ".")
   );

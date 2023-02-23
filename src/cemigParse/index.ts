@@ -6,12 +6,12 @@ import {
   IParseResult,
   TFileToParse,
 } from "../models/cemigParse.model";
-import { getAllAddress, getInstallationNumber } from "./consumerUnitInfo/consumerUnit";
-import { getGenerationBalance, getTariffFlag } from "./generalInfo/generalInfo";
+import { getAllAddress, getInstallationNumber } from "./consumerUnitInfo";
+import { getGenerationBalance, getTariffFlag } from "./generalInfo";
 import { getDueDate, getNextRead } from "./invoiceDates";
-import { getInvoicedItems } from "./invoiceValues/invoicedItems";
+import { getInvoicedItems } from "./invoiceValues";
 import { getTechnicalInfo } from "./technicalInfos";
-import { getHolderDocument, getHolderName } from "./userInfo/userInfo";
+import { getHolderDocument, getHolderName } from "./userInfo";
 
 function getPageData(data: any) {
   const productionJsonPath = jsonPath.query(data, "$.formImage.Pages[0].Texts");

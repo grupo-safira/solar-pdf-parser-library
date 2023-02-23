@@ -1,4 +1,4 @@
-import { getHolderData } from "../index";
+import { getHolderData } from "../utils";
 import * as jsonPath from "jsonpath";
 import { TFileToParse } from "models/cemigParse.model";
 import * as queryString from "querystring";
@@ -82,4 +82,8 @@ function dueDateTreatment(dueDate: string) {
   const dueDay = Number(dueDate.split("/")[0]);
   const dueDateTreated = new Date(dueYear, dueMonth - 1, dueDay, 0, 0, 0);
   return dueDateTreated;
+}
+
+export function getCompetence(page: TFileToParse) {
+  return getHolderData(page, 14, 15, 3, 4, 1);
 }

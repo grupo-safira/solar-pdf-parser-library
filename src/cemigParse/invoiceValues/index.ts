@@ -1,4 +1,4 @@
-import { getHolderData } from "../index";
+import { getHolderData } from "../utils/index";
 import * as jsonPath from "jsonpath";
 import { IItemEnergia, TFileToParse } from "models/cemigParse.model";
 import * as queryString from "querystring";
@@ -130,4 +130,35 @@ function getInvoicedItemsUnitTariff(invoicedItems: any, page: TFileToParse) {
     invoicedItemsUnitTariff.push(fieldValue);
   }
   return invoicedItemsUnitTariff;
+}
+export function getAmount(page: TFileToParse) {
+  const amountTreated =
+    Number(getHolderData(page, 18.5, 19.3, 15.3, 15.8).replace(",", "")) * -1;
+  return amountTreated > 0 ? amountTreated : 0;
+}
+
+export function verifyHasInjection(page: TFileToParse) {
+  const amount = getAmount(page);
+  return amount > 0 ? true : false;
+}
+
+export function getTotalInvoice(page: TFileToParse) {
+  let x = jsonPath.query(
+    page,
+    `$..[?(@.y >= 3 && @.y <= 4 && @.x >= 14 && @.x <= 15)]`
+  );
+  return queryString
+    .unescape(x[1].R[0].T)
+    .trim()
+    .replace(/\s{2,}/g, ";")
+    .split(";")[2]
+    .replace(".", "")
+    .replace(",", ".");
+}
+
+export function getBankSlip(page: TFileToParse) {
+  return getHolderData(page, 16, 17, 47, 48);
+}
+export function getAutomaticDebt(page: TFileToParse) {
+  return getHolderData(page, 7, 10, 46, 47, 1);
 }

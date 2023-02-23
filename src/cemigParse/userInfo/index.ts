@@ -1,4 +1,4 @@
-import { getHolderData } from "../index";
+import { getHolderData } from "../utils";
 import { TFileToParse } from "models/cemigParse.model";
 
 export function getHolderName(page: TFileToParse) {

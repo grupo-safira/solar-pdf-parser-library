@@ -1,7 +1,7 @@
 import { TFileToParse } from "models/cemigParse.model";
 import * as jsonPath from "jsonpath";
 import * as queryString from "querystring";
-import { getHolderData } from "../index";
+import { getHolderData } from "../utils/index";
 
 function getAddress(
   page0: TFileToParse,
@@ -26,4 +26,12 @@ export function getAllAddress(page: TFileToParse) {
 
 export function getInstallationNumber(page: TFileToParse) {
   return getHolderData(page, 16, 17, 46, 47, 1);
+}
+
+export function getSubClass(page: TFileToParse) {
+  const subclassData = getHolderData(page, 9, 14, 9, 12, 1);
+  return subclassData || "";
+}
+export function getClass(page: TFileToParse) {
+  return getHolderData(page, 4, 5, 11.5, 12.5);
 }

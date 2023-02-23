@@ -17,9 +17,9 @@ export function makeHistoryData(
     let historyArray = [];
     for (let index = 0; index <= 12; index++) {
       const hist = {
-        mes_ano: historyMonths[index],
-        consumo: Number(historyConsumption[index].replace(".", "")),
-        dias: historyDays[index],
+        monthAndYear: historyMonths[index],
+        consumption: Number(historyConsumption[index].replace(".", "")),
+        days: historyDays[index],
       };
       historyArray.push(hist);
     }

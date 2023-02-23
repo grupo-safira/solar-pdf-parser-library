@@ -7,7 +7,7 @@ import { getAllAddress, getClass, getInstallationNumber, getSubClass } from "./c
 import { getConsumptionHistory, getDaysHistory, getMonthHistory, makeHistoryData } from "./consumptionHistory";
 import { getGenerationBalance, getTariffFlag } from "./generalInfo";
 import { getCompetence, getDueDate, getNextRead } from "./invoiceDates";
-import { getAmount, getAutomaticDebt, getBankSlip, getInvoicedItems, getTotalInvoice, verifyHasInjection } from "./invoiceValues";
+import { getAmount, getAutomaticDebt, getBankSlip, getAllInvoicedItems, getTotalInvoice, verifyHasInjection } from "./invoiceValues";
 import { getTechnicalInfo } from "./technicalInfos";
 import { getHolderDocument, getHolderName } from "./userInfo";
 
@@ -61,7 +61,7 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
         const totalInvoice = getTotalInvoice(page)
         const generationBalance = getGenerationBalance(page)
         const dueDate = getDueDate(page)
-        const invoicedItems = getInvoicedItems(page)
+        const invoicedItems = getAllInvoicedItems(page)
         const technicalInfo = getTechnicalInfo(page)
         const consumerUnitParsed = {
           id: consumerUnit + "_" + competence.replace('/', '-'),

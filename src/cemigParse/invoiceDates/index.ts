@@ -21,19 +21,19 @@ export function getEmissionDate(
       if (parseFloat(a.y) == parseFloat(b.y)) return 0;
       return 0;
     });
-  let arrDados = x.map((e: any) => {
+  const arrData = x.map((e: any) => {
     return queryString.unescape(e.R[0].T).trim();
   });
-  let dataEmissao = "";
-  for (let dado of arrDados) {
-    if (dado.toUpperCase().indexOf("DATA DE EMISSÃO") === -1) {
+  let emissionDate = "";
+  for (let data of arrData) {
+    if (data.toUpperCase().indexOf("DATA DE EMISSÃO") === -1) {
       continue;
     } else {
-      let linhaDataEmissao = dado.toUpperCase();
-      dataEmissao = linhaDataEmissao.replace("DATA DE EMISSÃO:", "").trim();
+      let lineEmissionDate = data.toUpperCase();
+      emissionDate = lineEmissionDate.replace("DATA DE EMISSÃO:", "").trim();
     }
   }
-  return dataEmissao;
+  return emissionDate;
 }
 
 export function getNextRead(page: TFileToParse) {
@@ -59,20 +59,20 @@ export function getDueDate(
     page,
     `$..[?(@.y >= 3 && @.y <= 4 && @.x >= 14 && @.x <= 15)]`
   );
-  let arrDados = x.map((e: any) => {
+  const arrData = x.map((e: any) => {
     return queryString
       .unescape(e.R[0].T)
       .trim()
       .replace(/\s{2,}/g, ";");
   });
   let colPos = 0;
-  for (let title of arrDados[0].split(";")) {
+  for (let title of arrData[0].split(";")) {
     if (title.toUpperCase().indexOf("VENCIMENTO") === 0) {
       break;
     }
     colPos++;
   }
-  const dueDateTreated = dueDateTreatment(arrDados[1].split(";")[colPos]);
+  const dueDateTreated = dueDateTreatment(arrData[1].split(";")[colPos]);
   return dueDateTreated;
 }
 

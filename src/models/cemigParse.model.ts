@@ -1,7 +1,7 @@
 export interface IHistory {
-  consumo: number;
-  mes_ano: string;
-  dias: string;
+  consumption: number;
+  monthAndYear: string;
+  days: string;
 }
 
 export interface IParseResult {
@@ -22,7 +22,7 @@ export interface IParseResult {
   amountReg: number;
   hasInjection: Boolean;
 }
-export interface IItemEnergia {
+export interface IEnergyItem {
   description: string;
   unitMeasurement: string;
   quantity: number;

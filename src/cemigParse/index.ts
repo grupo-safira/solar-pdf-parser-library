@@ -1,13 +1,28 @@
 const PDFParser = require("pdf2json");
 import * as jsonPath from "jsonpath";
+import { IParseResult } from "../models/cemigParse.model";
 import {
-  IParseResult,
-} from "../models/cemigParse.model";
-import { getAllAddress, getClass, getInstallationNumber, getSubClass } from "./consumerUnitInfo";
-import { getConsumptionHistory, getDaysHistory, getMonthHistory, makeHistoryData } from "./consumptionHistory";
+  getAllAddress,
+  getClass,
+  getInstallationNumber,
+  getSubClass,
+} from "./consumerUnitInfo";
+import {
+  getConsumptionHistory,
+  getDaysHistory,
+  getMonthHistory,
+  makeHistoryData,
+} from "./consumptionHistory";
 import { getGenerationBalance, getTariffFlag } from "./generalInfo";
 import { getCompetence, getDueDate, getNextRead } from "./invoiceDates";
-import { getAmount, getAutomaticDebt, getBankSlip, getAllInvoicedItems, getTotalInvoice, verifyHasInjection } from "./invoiceValues";
+import {
+  getAmount,
+  getAutomaticDebt,
+  getBankSlip,
+  getAllInvoicedItems,
+  getTotalInvoice,
+  verifyHasInjection,
+} from "./invoiceValues";
 import { getTechnicalInfo } from "./technicalInfos";
 import { getHolderDocument, getHolderName } from "./userInfo";
 
@@ -58,13 +73,13 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
         const flag = getTariffFlag(page);
         const bankSlip = getBankSlip(page);
         const automaticDebtCode = getAutomaticDebt(page);
-        const totalInvoice = getTotalInvoice(page)
-        const generationBalance = getGenerationBalance(page)
-        const dueDate = getDueDate(page)
-        const invoicedItems = getAllInvoicedItems(page)
-        const technicalInfo = getTechnicalInfo(page)
-        const consumerUnitParsed = {
-          id: consumerUnit + "_" + competence.replace('/', '-'),
+        const totalInvoice = getTotalInvoice(page);
+        const generationBalance = getGenerationBalance(page);
+        const dueDate = getDueDate(page);
+        const invoicedItems = getAllInvoicedItems(page);
+        const technicalInfo = getTechnicalInfo(page);
+        const consumerUnitParsed: IParseResult = {
+          id: consumerUnit + "_" + competence.replace("/", "-"),
           name,
           address,
           district,
@@ -87,7 +102,7 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
           generationBalance,
           dueDate,
           invoicedItems,
-          technicalInfo
+          technicalInfo,
         };
 
         resolve(consumerUnitParsed);
@@ -102,4 +117,3 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
   });
   return promise as Promise<IParseResult>;
 }
-

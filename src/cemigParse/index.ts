@@ -33,7 +33,7 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
         const address = getAllAddress(page).street;
         const district = getAllAddress(page).district;
         const aux = getAllAddress(page).aux;
-        const postal_code = aux.slice(0, 9).replace(/([- ])/g, "");
+        const postalCode = aux.slice(0, 9).replace(/([- ])/g, "");
         const city = aux.substring(10, aux.length - 4);
         const state = {
           initials: aux.substring(aux.length - 2),
@@ -68,7 +68,7 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
           name,
           address,
           district,
-          postal_code,
+          postalCode,
           city,
           state,
           cpf,

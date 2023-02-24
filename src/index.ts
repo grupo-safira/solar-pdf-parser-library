@@ -6,4 +6,5 @@ export * from "./cemigParse/invoiceDates"
 export * from "./cemigParse/userInfo"
 export * from "./cemigParse/utils"
 export * from "./cemigParse"
+export * from "./models/cemigParse.model"
 

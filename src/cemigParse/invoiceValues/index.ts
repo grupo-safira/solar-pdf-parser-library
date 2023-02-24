@@ -1,6 +1,6 @@
 import { getHolderData } from "../utils/index";
 import * as jsonPath from "jsonpath";
-import { IEnergyItem, TFileToParse } from "models/cemigParse.model";
+import { IEnergyItem, IInvoicedItems, TFileToParse } from "models/cemigParse.model";
 import * as queryString from "querystring";
 
 function getInvoicedItems(
@@ -20,7 +20,7 @@ function getInvoicedItems(
   return data;
 }
 
-export function getAllInvoicedItems(page: TFileToParse) {
+export function getAllInvoicedItems(page: TFileToParse): IInvoicedItems {
   //TODO: find a more performant and less coupled way for this type of search
   let energyDistributorItems: IEnergyItem[] = [];
   let compensatedEnergyItems: IEnergyItem[] = [];

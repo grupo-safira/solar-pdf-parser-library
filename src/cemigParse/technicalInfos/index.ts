@@ -1,7 +1,7 @@
-import { TFileToParse } from "models/cemigParse.model";
+import { ITechnicalInfo, TFileToParse } from "models/cemigParse.model";
 import { getHolderData } from "../utils";
 
-export function getTechnicalInfo(page0: TFileToParse) {
+export function getTechnicalInfo(page0: TFileToParse): ITechnicalInfo {
   const measurement = getHolderData(page0, 19, 21, 27.744, 28.344);
   const previousReading = getHolderData(page0, 24, 25, 27.744, 28.344);
   const currentReading = getHolderData(page0, 26, 27, 27.744, 28.344);

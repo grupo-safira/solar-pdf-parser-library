@@ -5,22 +5,56 @@ export interface IHistory {
 }
 
 export interface IParseResult {
+  id: string;
   name: string;
   address: string;
   district: string;
-  postal_code: string;
+  postalCode: string;
   city: string;
-  state: { initials: "MG"; name: string };
+  state: { initials: string; name: string };
   cpf: string;
-  tarifa: Number;
-  classe: TClass;
-  consumer_unit: string;
-  installation_number: string;
-  subclasse: TSubclass;
-  history: { month: string; consumption: number; days: string }[];
-  next_read: string;
+  _class: TClass;
+  consumerUnit: string;
+  subclass: string;
+  history: IHistory[];
+  nextRead: string;
   amountReg: number;
-  hasInjection: Boolean;
+  hasInjection: boolean;
+  competence: string;
+  flag: {
+    current: string;
+    previous: string;
+  };
+  bankSlip: string;
+  automaticDebtCode: string;
+  totalInvoice: string;
+  generationBalance: number;
+  dueDate: Date;
+  invoicedItems: IInvoicedItems;
+  technicalInfo: ITechnicalInfo;
+}
+
+export interface IInvoicedItems {
+  invoicedItems: {
+    field: string;
+    x: number;
+    y: number;
+  }[];
+  invoicedItemsUnit: string[];
+  invoicedItemsValue: string[];
+  energyDistributorItems: IEnergyItem[];
+  compensatedEnergyItems: IEnergyItem[];
+  injectedEnergyItems: IEnergyItem[];
+  availabilityCostItems: IEnergyItem[];
+  invoicedItemsUnitTariff: string[];
+}
+
+export interface ITechnicalInfo {
+  measurement: string;
+  previousReading: string;
+  currentReading: string;
+  constantReading: string;
+  consumptionReading: string;
 }
 export interface IEnergyItem {
   description: string;

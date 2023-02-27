@@ -8,8 +8,10 @@ export function getTariffFlag(page: TFileToParse) {
     generalInfo.split(".br.")[1] ||
     generalInfo.split("c/c.")[1] ||
     generalInfo.split("faturamento.")[1] ||
-    generalInfo.split("local.")[1];
-    if(!flagLine.includes('Band')){
+    generalInfo.split("local.")[1] ||
+    generalInfo.split("energia.")[1];
+    if(!flagLine.includes('Band') || !flagLine){
+      console.error('Não doi possivel buscar a bandeira')
       return {
         current: '',
         previous: '',

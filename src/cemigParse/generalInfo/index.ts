@@ -11,8 +11,8 @@ export function getTariffFlag(page: TFileToParse) {
     generalInfo.split("local.")[1];
     if(!flagLine.includes('Band')){
       return {
-        current: flagLine.split("-")[0].trim(),
-        previous: flagLine.split("-")[1].trim(),
+        current: '',
+        previous: '',
       }
     }
   const flags = {

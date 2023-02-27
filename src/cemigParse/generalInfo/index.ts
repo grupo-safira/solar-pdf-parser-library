@@ -7,7 +7,14 @@ export function getTariffFlag(page: TFileToParse) {
   const flagLine =
     generalInfo.split(".br.")[1] ||
     generalInfo.split("c/c.")[1] ||
+    generalInfo.split("faturamento.")[1] ||
     generalInfo.split("local.")[1];
+    if(!flagLine.includes('Band')){
+      return {
+        current: flagLine.split("-")[0].trim(),
+        previous: flagLine.split("-")[1].trim(),
+      }
+    }
   const flags = {
     current: flagLine.split("-")[0].trim(),
     previous: flagLine.split("-")[1].trim(),

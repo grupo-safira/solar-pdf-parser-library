@@ -7,10 +7,14 @@ export function getColumn(
   yInicial: number,
   yFinal: number
 ): string[] {
-  let x = jsonPath.query(
+  const x = jsonPath.query(
     page,
     `$..[?(@.y >= ${yInicial} && @.y <= ${yFinal} && @.x >= ${xInicial} && @.x <= ${xFinal})]`
   );
+  if(!x.length){
+    console.error(`Houve um erro ao realizar o parse da coluna com as seguintes coordenadas ${xInicial}, ${xFinal}, ${yInicial}, ${yFinal}`)
+    return []
+  }
   return x.map((month: any) => {
     return queryString.unescape(month.R[0].T).trim();
   });

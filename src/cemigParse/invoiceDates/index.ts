@@ -2,7 +2,7 @@ import { getHolderData } from "../utils";
 import * as jsonPath from "jsonpath";
 import { TFileToParse } from "models/cemigParse.model";
 import * as queryString from "querystring";
-
+import * as invoiceDates from "../invoiceDates";
 export function getEmissionDate(
   page0: any,
   xInicial: number,
@@ -38,23 +38,23 @@ export function getEmissionDate(
 
 export function getNextRead(page: TFileToParse) {
   const nextRead = getHolderData(page, 33, 34, 11.5, 12);
-  const emissionDate = getEmissionDate(page, 20, 21, 5, 9);
-
-  return nextReadTreatment(nextRead, emissionDate);
+  const emissionDate = invoiceDates.getEmissionDate(page, 20, 21, 5, 9);
+  return invoiceDates.nextReadTreatment(nextRead, emissionDate);
 }
 
-function nextReadTreatment(nextRead: string, emissionDate: string) {
+export function nextReadTreatment(nextRead: string, emissionDate: string) {
   let emissionYear = Number(emissionDate.split("/")[2]);
   const emissionMonth = Number(emissionDate.split("/")[1]);
   const nextMonth = Number(nextRead.split("/")[1]);
 
   if (nextMonth < emissionMonth) emissionYear++;
-  return nextRead + "/" + emissionYear.toString();
+
+  const brDate = nextRead + "/" + emissionYear.toString();
+  const dateFormatted = invoiceDates.dateTreatment(brDate)
+  return dateFormatted;
 }
 
-export function getDueDate(
-  page: TFileToParse,
-) {
+export function getDueDate(page: TFileToParse) {
   let x = jsonPath.query(
     page,
     `$..[?(@.y >= 3 && @.y <= 4 && @.x >= 14 && @.x <= 15)]`
@@ -72,14 +72,14 @@ export function getDueDate(
     }
     colPos++;
   }
-  const dueDateTreated = dueDateTreatment(arrData[1].split(";")[colPos]);
+  const dueDateTreated = dateTreatment(arrData[1].split(";")[colPos]);
   return dueDateTreated;
 }
 
-function dueDateTreatment(dueDate: string) {
-  const dueYear = Number(dueDate.split("/")[2]);
-  const dueMonth = Number(dueDate.split("/")[1]);
-  const dueDay = Number(dueDate.split("/")[0]);
+export function dateTreatment(date: string) {
+  const dueYear = Number(date.split("/")[2]);
+  const dueMonth = Number(date.split("/")[1]);
+  const dueDay = Number(date.split("/")[0]);
   const dueDateTreated = new Date(dueYear, dueMonth - 1, dueDay, 0, 0, 0);
   return dueDateTreated;
 }

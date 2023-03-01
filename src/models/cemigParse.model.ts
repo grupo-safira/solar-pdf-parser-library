@@ -17,7 +17,7 @@ export interface IParseResult {
   consumerUnit: string;
   subclass: string;
   history: IHistory[];
-  nextRead: string;
+  nextRead: Date;
   amountReg: number;
   hasInjection: boolean;
   competence: string;
@@ -27,7 +27,7 @@ export interface IParseResult {
   };
   bankSlip: string;
   automaticDebtCode: string;
-  totalInvoice: string;
+  totalInvoice: number | string;
   generationBalance: number;
   dueDate: Date;
   invoicedItems: IInvoicedItems;
@@ -51,10 +51,10 @@ export interface IInvoicedItems {
 
 export interface ITechnicalInfo {
   measurement: string;
-  previousReading: string;
-  currentReading: string;
-  constantReading: string;
-  consumptionReading: string;
+  previousReading: number;
+  currentReading: number;
+  constantReading: number;
+  consumptionReading: number;
 }
 export interface IEnergyItem {
   description: string;

@@ -1,61 +1,51 @@
 import * as jsonPath from "jsonpath";
 import * as queryString from "querystring";
 import { TFileToParse } from "models/cemigParse.model";
-
+import * as generalInfoModule from "../generalInfo";
 export function getTariffFlag(page: TFileToParse) {
-  const generalInfo = getGeneralInfo(page);
-  const flagLine =
-    generalInfo.split(".br.")[1] ||
-    generalInfo.split("c/c.")[1] ||
-    generalInfo.split("faturamento.")[1] ||
-    generalInfo.split("local.")[1] 
-    generalInfo.split("194/22")[1];
-    if( !flagLine || !flagLine.includes('Band') ){
-      console.error('Não doi possivel buscar a bandeira')
-      return {
-        current: '',
-        previous: '',
-      }
-    }
+  const generalInfo = generalInfoModule.getGeneralInfo(page);
+  const flagInfo = generalInfo.split(" ").slice(-7)
+  const flagArray = flagInfo.join(' ').split('-')
+  if (!flagArray.length || !flagArray[0].includes("Band") || !flagArray[1].includes("Band")) {
+    console.error("Não foi possivel buscar a bandeira");
+    return {
+      current: "",
+      previous: "",
+    };
+  }
   const flags = {
-    current: flagLine.split("-")[0].trim(),
-    previous: flagLine.split("-")[1].trim(),
+    previous: flagArray[0].trim(),
+    current: flagArray[1].trim(),
   };
   return flags;
 }
 
-function getGeneralInfo(page: TFileToParse): string {
+export function getGeneralInfo(page: TFileToParse): string {
   let x = jsonPath.query(
     page,
     `$..[?(@.y >= 32.4 && @.y <= 39 && @.x >=  14 && @.x <= 31)]`
   );
+  if (!x.length) {
+     throw new Error("Não foi possivel localizar as informações gerais");
+  }
   const arrayData: Array<string> = x.map((e: any) => {
-    return queryString.unescape(e.R[0].T).trim();
+    return queryString.unescape(e.R[0].T);
   });
   let text: string = "";
   for (let index = 0; index < arrayData.length; index++) {
-    if (
-      arrayData[index].substring(0, 4) === "SALDO" ||
-      arrayData[index].substring(0, 4) === "ATUAL" ||
-      arrayData[index].substring(0, 1) === "DE" ||
-      arrayData[index].substring(0, 7) === "GERAÇÃO"
-    ) {
-      text = text + " " + arrayData[index];
+    if (arrayData[index].substring(arrayData[index].length - 1) === "-") {
+      text = text + arrayData[index] + " ";
     } else {
-      if (arrayData[index].substring(arrayData[index].length - 1) === "-") {
-        text = text + arrayData[index] + " ";
-      } else {
-        text = text + arrayData[index];
-      }
+      text = text + arrayData[index];
     }
   }
   return text;
 }
 
 export function getGenerationBalance(page: TFileToParse) {
-  const generalInfo = getGeneralInfo(page);
-  const balanceLine = generalInfo.split("kWh")[0];
-  if (balanceLine) return 0;
+  const generalInfo = generalInfoModule.getGeneralInfo(page);
+  if (!generalInfo.includes("kWh")) return 0;
+  const balanceLine = generalInfo.split("kWh FP/Único")[0];
   const generationBalanceTreatment = parseFloat(
     balanceLine.split(":")[1].replace(".", "").replace(",", ".")
   );

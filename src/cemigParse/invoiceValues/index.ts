@@ -1,9 +1,10 @@
 import { getHolderData } from "../utils/index";
+import * as invoicedValuesModule from "../invoiceValues";
 import * as jsonPath from "jsonpath";
 import { IEnergyItem, IInvoicedItems, TFileToParse } from "models/cemigParse.model";
 import * as queryString from "querystring";
 
-function getInvoicedItems(
+export function getInvoicedItems(
   page: TFileToParse
 ): Array<{ field: string; x: number; y: number }> {
   let x = jsonPath.query(
@@ -26,15 +27,15 @@ export function getAllInvoicedItems(page: TFileToParse): IInvoicedItems {
   let compensatedEnergyItems: IEnergyItem[] = [];
   let injectedEnergyItems: IEnergyItem[] = [];
   let availabilityCostItems: IEnergyItem[] = [];
-  const invoicedItems = getInvoicedItems(page);
-  const invoicedItemsUnitTariff = getInvoicedItemsUnitTariff(
+  const invoicedItems = invoicedValuesModule.getInvoicedItems(page);
+  const invoicedItemsUnitTariff = invoicedValuesModule.getInvoicedItemsUnitTariff(
     invoicedItems,
     page
   );
-  const invoicedItemsValue = getInvoicedItemsValue(invoicedItems, page);
-  const invoicedItemsUnit = getInvoicedItemsUnit(invoicedItems, page);
-  const invoicedItemsQuant = getInvoicedItemsQuantity(invoicedItems, page);
-  const invoicedItemsUnitPrice = getInvoicedItemsUnitPrice(invoicedItems, page);
+  const invoicedItemsValue = invoicedValuesModule.getInvoicedItemsValue(invoicedItems, page);
+  const invoicedItemsUnit = invoicedValuesModule.getInvoicedItemsUnit(invoicedItems, page);
+  const invoicedItemsQuant = invoicedValuesModule.getInvoicedItemsQuantity(invoicedItems, page);
+  const invoicedItemsUnitPrice = invoicedValuesModule.getInvoicedItemsUnitPrice(invoicedItems, page);
 
   for (let i = 0; i < invoicedItems.length; i++) {
     const energyDefaultValues: IEnergyItem = {
@@ -42,7 +43,7 @@ export function getAllInvoicedItems(page: TFileToParse): IInvoicedItems {
       description: invoicedItems[i].field,
       unitMeasurement: invoicedItemsUnit[i],
       quantity: parseInt(invoicedItemsQuant[i].replace(".", ""), 10),
-      unitPrice: parseFloat(invoicedItemsUnitPrice[i]),
+      unitPrice: parseFloat(invoicedItemsUnitPrice[i]) || 0,
     };
     switch (invoicedItems[i].field.toUpperCase()) {
       case "TOTAL":
@@ -58,11 +59,11 @@ export function getAllInvoicedItems(page: TFileToParse): IInvoicedItems {
         energyDistributorItems.push(energy);
         continue;
 
-      case "EN COMP.":
+      case "EN COMP. S/ ICMS":
         compensatedEnergyItems.push(energyDefaultValues);
         continue;
 
-      case "ENERGIA INJETADA":
+      case "ENERGIA INJETADA HFP":
         injectedEnergyItems.push(energyDefaultValues);
         continue;
 
@@ -91,7 +92,7 @@ export function getAllInvoicedItems(page: TFileToParse): IInvoicedItems {
   };
 }
 
-function getInvoicedItemsUnit(invoicedItems: any, page: TFileToParse) {
+export function getInvoicedItemsUnit(invoicedItems: any, page: TFileToParse) {
   let unitInvoicedItems = [];
   for (let i of invoicedItems) {
     let fieldValue = getHolderData(page, 10, 11, i.y - 0.3, i.y + 0.3);
@@ -99,7 +100,7 @@ function getInvoicedItemsUnit(invoicedItems: any, page: TFileToParse) {
   }
   return unitInvoicedItems;
 }
-function getInvoicedItemsQuantity(invoicedItems: any, page: TFileToParse) {
+export function getInvoicedItemsQuantity(invoicedItems: any, page: TFileToParse) {
   let invoicedItemsQuant = [];
   for (let i of invoicedItems) {
     let fieldValue = getHolderData(page, 12, 13, i.y - 0.3, i.y + 0.3);
@@ -107,7 +108,7 @@ function getInvoicedItemsQuantity(invoicedItems: any, page: TFileToParse) {
   }
   return invoicedItemsQuant;
 }
-function getInvoicedItemsUnitPrice(invoicedItems: any, page: TFileToParse) {
+export function getInvoicedItemsUnitPrice(invoicedItems: any, page: TFileToParse) {
   let invoicedItemsUnitPrice = [];
   for (let i of invoicedItems) {
     let fieldValue = getHolderData(page, 15, 16, i.y - 0.3, i.y + 0.3);
@@ -115,7 +116,7 @@ function getInvoicedItemsUnitPrice(invoicedItems: any, page: TFileToParse) {
   }
   return invoicedItemsUnitPrice;
 }
-function getInvoicedItemsValue(invoicedItems: any, page: TFileToParse) {
+export function getInvoicedItemsValue(invoicedItems: any, page: TFileToParse) {
   let invoicedItemsValue = [];
   for (let i of invoicedItems) {
     let fieldValue = getHolderData(page, 18, 20, i.y - 0.3, i.y + 0.3);
@@ -123,7 +124,7 @@ function getInvoicedItemsValue(invoicedItems: any, page: TFileToParse) {
   }
   return invoicedItemsValue;
 }
-function getInvoicedItemsUnitTariff(invoicedItems: any, page: TFileToParse) {
+export function getInvoicedItemsUnitTariff(invoicedItems: any, page: TFileToParse) {
   let invoicedItemsUnitTariff = [];
   for (let i of invoicedItems) {
     let fieldValue = getHolderData(page, 32, 33, i.y - 0.3, i.y + 0.3);
@@ -132,13 +133,14 @@ function getInvoicedItemsUnitTariff(invoicedItems: any, page: TFileToParse) {
   return invoicedItemsUnitTariff;
 }
 export function getAmount(page: TFileToParse) {
+  const amount = getHolderData(page, 18.5, 19.3, 15.3, 15.8).replace(".", "").replace(",", ".") || "0"
   const amountTreated =
-    Number(getHolderData(page, 18.5, 19.3, 15.3, 15.8).replace(",", "")) * -1;
+    Number(amount) * -1;
   return amountTreated > 0 ? amountTreated : 0;
 }
 
 export function verifyHasInjection(page: TFileToParse) {
-  const amount = getAmount(page);
+  const amount = invoicedValuesModule.getAmount(page);
   return amount > 0 ? true : false;
 }
 
@@ -147,13 +149,16 @@ export function getTotalInvoice(page: TFileToParse) {
     page,
     `$..[?(@.y >= 3 && @.y <= 4 && @.x >= 14 && @.x <= 15)]`
   );
-  return queryString
+  if(!x.length) return ''
+
+  const totalInvoice = Number(queryString
     .unescape(x[1].R[0].T)
     .trim()
     .replace(/\s{2,}/g, ";")
     .split(";")[2]
     .replace(".", "")
-    .replace(",", ".");
+    .replace(",", "."))
+  return totalInvoice
 }
 
 export function getBankSlip(page: TFileToParse) {

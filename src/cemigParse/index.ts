@@ -8,9 +8,6 @@ import {
   getSubClass,
 } from "./consumerUnitInfo";
 import {
-  getConsumptionHistory,
-  getDaysHistory,
-  getMonthHistory,
   makeHistoryData,
 } from "./consumptionHistory";
 import { getGenerationBalance, getTariffFlag } from "./generalInfo";
@@ -59,14 +56,7 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
         const subclass = getSubClass(page);
         const _class = getClass(page);
         const nextRead = getNextRead(page);
-        const historyMonths = getMonthHistory(page);
-        const historyConsumption = getConsumptionHistory(page);
-        const historyDays = getDaysHistory(page);
-        const history = makeHistoryData(
-          historyDays,
-          historyConsumption,
-          historyMonths
-        );
+        const history = makeHistoryData(page);
         const amountReg = getAmount(page);
         const hasInjection = verifyHasInjection(page);
         const competence = getCompetence(page);

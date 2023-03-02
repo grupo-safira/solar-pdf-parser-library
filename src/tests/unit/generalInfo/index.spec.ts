@@ -1,6 +1,6 @@
 import * as generalInfo from "../../../cemigParse/generalInfo";
 import * as jsonPath from "jsonpath";
-jest.mock("jsonPath", () => {
+jest.mock("jsonpath", () => {
   return {
     query: jest.fn(),
   };
@@ -20,8 +20,8 @@ describe("generalInfo unit tests", () => {
 
       expect(getGeneralInfoSpy).toHaveBeenCalled();
       expect(response).toEqual({
-        current: "DEZ/22 Band. Verde",
-        previous: "JAN/23 Band. Verde.",
+        previous: "DEZ/22 Band. Verde",
+        current: "JAN/23 Band. Verde.",
       });
     });
     it("should return tariff flag when before flag word is '.br.' (layout of bill has different types)", () => {
@@ -34,8 +34,8 @@ describe("generalInfo unit tests", () => {
 
       expect(getGeneralInfoSpy).toHaveBeenCalled();
       expect(response).toEqual({
-        current: "DEZ/22 Band. Verde",
-        previous: "JAN/23 Band. Verde.",
+        previous: "DEZ/22 Band. Verde",
+        current: "JAN/23 Band. Verde.",
       });
     });
     it("should return tariff flag when before flag word is 'c/c.' (layout of bill has different types)", () => {
@@ -48,8 +48,8 @@ describe("generalInfo unit tests", () => {
 
       expect(getGeneralInfoSpy).toHaveBeenCalled();
       expect(response).toEqual({
-        current: "DEZ/22 Band. Verde",
-        previous: "JAN/23 Band. Verde.",
+        previous: "DEZ/22 Band. Verde",
+        current: "JAN/23 Band. Verde.",
       });
     });
     it("should return tariff flag when before flag word is 'faturamento.' (layout of bill has different types)", () => {
@@ -62,8 +62,8 @@ describe("generalInfo unit tests", () => {
 
       expect(getGeneralInfoSpy).toHaveBeenCalled();
       expect(response).toEqual({
-        current: "DEZ/22 Band. Verde",
-        previous: "JAN/23 Band. Verde.",
+        previous: "DEZ/22 Band. Verde",
+        current: "JAN/23 Band. Verde.",
       });
     });
     it("should return tariff flag when before flag word is 'local.' (layout of bill has different types)", () => {
@@ -76,8 +76,8 @@ describe("generalInfo unit tests", () => {
 
       expect(getGeneralInfoSpy).toHaveBeenCalled();
       expect(response).toEqual({
-        current: "DEZ/22 Band. Verde",
-        previous: "JAN/23 Band. Verde.",
+        previous: "DEZ/22 Band. Verde",
+        current: "JAN/23 Band. Verde.",
       });
     });
     it("should return tariff flag when before flag word is 'energia.' (layout of bill has different types)", () => {
@@ -90,8 +90,8 @@ describe("generalInfo unit tests", () => {
 
       expect(getGeneralInfoSpy).toHaveBeenCalled();
       expect(response).toEqual({
-        current: "DEZ/22 Band. Verde",
-        previous: "JAN/23 Band. Verde.",
+        previous: "DEZ/22 Band. Verde",
+        current: "JAN/23 Band. Verde.",
       });
     });
     it("should return empty tariff object when not found flag", () => {

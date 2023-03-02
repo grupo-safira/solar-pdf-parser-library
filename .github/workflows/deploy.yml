@@ -2,7 +2,7 @@ name: Node.js Package
 
 on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
@@ -14,9 +14,18 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@safiradigital'
-      - run: npm install
-      - run: tsc
-      - run: npm publish
+          scope: "@safiradigital"
+
+      - name: Bump Version
+        run: npm version patch
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: tsc
+
+      - name: Publish Package
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

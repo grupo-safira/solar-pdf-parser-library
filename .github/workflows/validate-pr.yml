@@ -1,0 +1,32 @@
+name: Validate PR to deploy
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  BRANCH: ${{ github.ref }}
+
+jobs:
+  validate_pr:
+    runs-on: ubuntu-latest
+    defaults:
+    run:
+      working-directory: ./functions
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build repo
+        run: npm run build
+        # Use this GitHub Action
+      - name: Check package version (need update for new release)
+        uses: technote-space/package-version-check-action@v1
+        with:
+          COMMIT_DISABLED: 1
+          
+      - name: Run test
+        run: npm run jest

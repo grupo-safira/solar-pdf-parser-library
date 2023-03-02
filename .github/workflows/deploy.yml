@@ -15,6 +15,11 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
           scope: "@safiradigital"
+          
+      - name: Git config
+        run: |
+          git config --global user.email "${{ secrets.ORG_EMAIL }}"
+          git config --global user.name "safiradigital"
 
       - name: Bump Version
         run: npm version patch

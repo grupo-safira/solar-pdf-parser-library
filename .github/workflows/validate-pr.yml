@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./functions
+        working-directory: ./src
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
 
       - name: Build repo
         run: npm run build
-        
+
         # Use this GitHub Action
       - name: Check package version (need update for new release)
         uses: technote-space/package-version-check-action@v1

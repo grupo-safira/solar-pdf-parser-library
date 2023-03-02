@@ -1,6 +1,6 @@
 import * as generalInfo from "../../../cemigParse/generalInfo";
 import * as jsonPath from "jsonpath";
-jest.mock("jsonPath", () => {
+jest.mock("jsonpath", () => {
   return {
     query: jest.fn(),
   };

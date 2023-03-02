@@ -23,11 +23,8 @@ jobs:
       - name: Build repo
         run:  tsc
 
-        # Use this GitHub Action
-      - name: Check package version (need update for new release)
-        uses: technote-space/package-version-check-action@v1
-        with:
-          COMMIT_DISABLED: 1
+      - name: Bump Version
+        run:  npm version patch
 
       - name: Run test
         run: npm run test

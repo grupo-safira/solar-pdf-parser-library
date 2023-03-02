@@ -4,7 +4,7 @@ import { TFileToParse } from "models/cemigParse.model";
 import * as generalInfoModule from "../generalInfo";
 export function getTariffFlag(page: TFileToParse) {
   const generalInfo = generalInfoModule.getGeneralInfo(page);
-  const flagInfo = generalInfo.split(" ").slice(-7)
+  const flagInfo = generalInfo.trim().split(" ").slice(-7)
   const flagArray = flagInfo.join(' ').split('-')
   if (!flagArray.length || !flagArray[0].includes("Band") || !flagArray[1].includes("Band")) {
     console.error("Não foi possivel buscar a bandeira");

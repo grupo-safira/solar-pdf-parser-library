@@ -18,7 +18,7 @@ export function makeHistoryData(page: TFileToParse): IHistory[] {
     const hist = {
       monthAndYear: historyMonths[index],
       consumption: Number(historyConsumption[index].replace(".", "")),
-      days: historyDays[index],
+      days: Number(historyDays[index]) ?? 0,
     };
     historyArray.push(hist);
   }

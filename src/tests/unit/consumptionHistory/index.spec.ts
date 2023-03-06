@@ -110,7 +110,7 @@ describe("consumerUnitInfo", () => {
           const hist = {
             monthAndYear: expectedMonth[index],
             consumption: Number(expectedConsumption[index].replace(".", "")),
-            days: expectedDays[index],
+            days: Number(expectedDays[index]),
           };
           historyArray.push(hist);
         }

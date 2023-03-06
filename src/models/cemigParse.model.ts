@@ -1,7 +1,7 @@
 export interface IHistory {
   consumption: number;
   monthAndYear: string;
-  days: string;
+  days: number;
 }
 
 export interface IParseResult {

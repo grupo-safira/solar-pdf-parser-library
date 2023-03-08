@@ -1,6 +1,6 @@
 import { getHolderData } from "../utils";
 import * as jsonPath from "jsonpath";
-import { TFileToParse } from "models/cemigParse.model";
+import { TFileToParse } from "../../models/cemigParse.model";
 import * as queryString from "querystring";
 import * as invoiceDates from "../invoiceDates";
 export function getEmissionDate(

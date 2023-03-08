@@ -1,6 +1,6 @@
 {
   "name": "@safiradigital/pdf-parser-library",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Pdf parser to read Cemig Bill",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

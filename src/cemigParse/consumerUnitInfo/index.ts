@@ -1,4 +1,4 @@
-import { TClass, TFileToParse } from "models/cemigParse.model";
+import { TClass, TFileToParse } from "../../models/cemigParse.model";
 import * as jsonPath from "jsonpath";
 import * as queryString from "querystring";
 import { getHolderData } from "../utils/index";

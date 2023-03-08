@@ -1,6 +1,6 @@
 import * as jsonPath from "jsonpath";
 import * as queryString from "querystring";
-import { TFileToParse } from "models/cemigParse.model";
+import { TFileToParse } from "../../models/cemigParse.model";
 import * as generalInfoModule from "../generalInfo";
 export function getTariffFlag(page: TFileToParse) {
   const generalInfo = generalInfoModule.getGeneralInfo(page);

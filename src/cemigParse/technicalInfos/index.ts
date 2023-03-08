@@ -1,4 +1,4 @@
-import { ITechnicalInfo, TFileToParse } from "models/cemigParse.model";
+import { ITechnicalInfo, TFileToParse } from "../../models/cemigParse.model";
 import { getHolderData } from "../utils";
 
 export function getTechnicalInfo(page0: TFileToParse): ITechnicalInfo {

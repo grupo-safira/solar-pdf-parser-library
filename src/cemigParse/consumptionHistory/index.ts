@@ -1,5 +1,5 @@
 import { getColumn } from "../utils";
-import { IHistory, TFileToParse } from "models/cemigParse.model";
+import { IHistory, TFileToParse } from "../../models/cemigParse.model";
 import * as consumptionHistory from "../consumptionHistory"
 export function makeHistoryData(page: TFileToParse): IHistory[] {
   const historyMonths = consumptionHistory.getMonthHistory(page);

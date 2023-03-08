@@ -1,7 +1,7 @@
 import { getHolderData } from "../utils/index";
 import * as invoicedValuesModule from "../invoiceValues";
 import * as jsonPath from "jsonpath";
-import { IEnergyItem, IInvoicedItems, TFileToParse } from "models/cemigParse.model";
+import { IEnergyItem, IInvoicedItems, TFileToParse } from "../../models/cemigParse.model";
 import * as queryString from "querystring";
 
 export function getInvoicedItems(

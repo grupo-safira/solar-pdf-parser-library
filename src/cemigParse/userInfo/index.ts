@@ -1,5 +1,5 @@
 import * as utils from "../utils";
-import { TFileToParse } from "models/cemigParse.model";
+import { TFileToParse } from "../../models/cemigParse.model";
 
 export function getHolderName(page: TFileToParse) {
   return utils.getHolderData(page, 0, 1, 3, 3.5);

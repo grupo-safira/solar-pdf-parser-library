@@ -4,6 +4,9 @@ import { TFileToParse } from "../../models/cemigParse.model";
 export function getHolderName(page: TFileToParse) {
   return utils.getHolderData(page, 0, 1, 3, 3.5);
 }
+export function getCustomerNumber(page: TFileToParse) {
+  return utils.getHolderData(page , 0, 1, 8, 10, 1);
+}
 
 export function getHolderDocument(page: TFileToParse) {
   return utils.getHolderData(page, 0, 1, 5, 6)

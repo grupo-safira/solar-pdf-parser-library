@@ -32,6 +32,7 @@ export interface IParseResult {
   dueDate: Date;
   invoicedItems: IInvoicedItems;
   technicalInfo: ITechnicalInfo;
+  customerNumber: string
 }
 
 export interface IInvoicedItems {

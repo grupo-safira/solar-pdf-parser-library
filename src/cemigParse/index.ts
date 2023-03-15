@@ -21,7 +21,7 @@ import {
   verifyHasInjection,
 } from "./invoiceValues";
 import { getTechnicalInfo } from "./technicalInfos";
-import { getHolderDocument, getHolderName } from "./userInfo";
+import { getCustomerNumber, getHolderDocument, getHolderName } from "./userInfo";
 
 function getPageData(data: any) {
   const productionJsonPath = jsonPath.query(data, "$.formImage.Pages[0].Texts");
@@ -54,6 +54,7 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
         const cpf = getHolderDocument(page);
         const consumerUnit = getInstallationNumber(page);
         const subclass = getSubClass(page);
+        const customerNumber = getCustomerNumber(page);
         const _class = getClass(page);
         const nextRead = getNextRead(page);
         const history = makeHistoryData(page);
@@ -93,6 +94,7 @@ export async function parsePdf(pdfPath: string): Promise<IParseResult> {
           dueDate,
           invoicedItems,
           technicalInfo,
+          customerNumber
         };
 
         resolve(consumerUnitParsed);

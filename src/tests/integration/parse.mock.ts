@@ -1,5 +1,6 @@
 export const expectedParsedOnlyAvailability = () => {
   return {
+    customerNumber: "7004839993",
     _class: "Monofásico",
     address: "RUA DOUTOR JOSE SOARES 124 CO",
     amountReg: 0,
@@ -81,6 +82,7 @@ export const expectedParsedOnlyAvailability = () => {
 };
 export const expectedInjectedEnergy = () => {
   return {
+    customerNumber: "7000039947",
     _class: "Trifásico",
     address: "SITIO SETE LAOGAS PT 45 9999 FZ",
     amountReg: 920.91,
@@ -198,6 +200,7 @@ export const expectedInjectedEnergy = () => {
 };
 export const expectedExemptCompensation = () => {
   return {
+    customerNumber: "7010098257",
     _class: "Bifásico",
     address: "RUA DOUTOR JOSE FERNANDES FILHO 84 CS",
     amountReg: 57.47,
@@ -321,6 +324,7 @@ export const expectedExemptCompensation = () => {
 };
 export const expectedOnlyDistributor = () => {
   return {
+    customerNumber: "7200150195",
     _class: "Monofásico",
     address: "RUA DIOMAR DE SOUZA E SILVA 110 CX 1",
     amountReg: 0,
@@ -348,7 +352,7 @@ export const expectedOnlyDistributor = () => {
       { consumption: 372, days: 32, monthAndYear: "MAR/22" },
       {
         consumption: 243,
-        days:29,
+        days: 29,
         monthAndYear: "FEV/22",
       },
       {

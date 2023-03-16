@@ -248,7 +248,15 @@ export const expectedExemptCompensation = () => {
     id: "3012072972_FEV-2023",
     invoicedItems: {
       availabilityCostItems: [],
-      compensatedEnergyItems: [],
+      compensatedEnergyItems: [
+        {
+          description: "En comp. ISENTA",
+          quantity: 88,
+          unitMeasurement: "kWh",
+          unitPrice: 0.65313,
+          value: 57.47,
+        },
+      ],
       energyDistributorItems: [
         {
           description: "Energia Elétrica",

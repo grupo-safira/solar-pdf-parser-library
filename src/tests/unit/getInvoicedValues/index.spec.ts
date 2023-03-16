@@ -8,7 +8,9 @@ jest.mock("jsonpath", () => {
 });
 
 describe("invoiced values unit tests", () => {
-  beforeEach(jest.clearAllMocks);
+  beforeEach(() => {
+    jest.clearAllMocks(), jest.restoreAllMocks();
+  });
   describe("getInvoicedItems", () => {
     it("should return object with field invoiced and coordinates", () => {
       const getPdfInfoSpy = jest.spyOn(jsonPath, "query");
@@ -297,6 +299,13 @@ describe("invoiced values unit tests", () => {
             unitPrice: 0.68383415,
             value: 50.59,
           },
+          {
+            description: "En comp. ISENTA",
+            quantity: 147,
+            unitMeasurement: "kWh",
+            unitPrice: 0.65313,
+            value: 96.01,
+          },
         ],
         energyDistributorItems: [
           {
@@ -444,7 +453,7 @@ describe("invoiced values unit tests", () => {
   describe("getInvoicedItemsQuantity", () => {
     it("should return object with field invoiced and coordinates", () => {
       const getHolderDataSpy = jest.spyOn(utils, "getHolderData");
-      getHolderDataSpy.mockReturnValueOnce("0.7");
+      getHolderDataSpy.mockReturnValue("0.7");
 
       const response = invoicedValues.getInvoicedItemsQuantity(
         [
@@ -464,7 +473,7 @@ describe("invoiced values unit tests", () => {
   describe("getInvoicedItemsUnitPrice", () => {
     it("should return object with field invoiced and coordinates", () => {
       const getHolderDataSpy = jest.spyOn(utils, "getHolderData");
-      getHolderDataSpy.mockReturnValueOnce("0.7");
+      getHolderDataSpy.mockReturnValue("0.7");
 
       const response = invoicedValues.getInvoicedItemsUnitPrice(
         [
@@ -544,8 +553,7 @@ describe("invoiced values unit tests", () => {
           y: 13.5,
           R: [
             {
-              T: '%20%20%20%20JAN%2F2023%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2027%2F02%2F2023%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2018.697%2C62%20'
-              ,
+              T: "%20%20%20%20JAN%2F2023%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2027%2F02%2F2023%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2018.697%2C62%20",
             },
           ],
         },

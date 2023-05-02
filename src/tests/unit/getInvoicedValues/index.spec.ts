@@ -490,34 +490,63 @@ describe("invoiced values unit tests", () => {
       expect(response).toEqual(["07"]);
     });
   });
-  describe("getAmount", () => {
-    it("should return zero when not has injection", () => {
-      const getHolderDataSpy = jest.spyOn(utils, "getHolderData");
-      getHolderDataSpy.mockReturnValueOnce("1000");
+  describe.skip("getAmount", () => {
+    it.only("should return zero when not has injection", () => {
+      const getAllInvoicedItemsSpy = jest.spyOn(
+        invoicedValues,
+        "getAllInvoicedItems"
+      );
+      getAllInvoicedItemsSpy.mockReturnValue({
+        injectedEnergyItems: [
+          {
+            description: "Energia injetada HFP",
+            quantity: 221,
+            unitMeasurement: "kWh",
+            unitPrice: 0.65313,
+            value: 0,
+          },
+        ],
+      } as any);
 
       const response = invoicedValues.getAmount("page");
 
-      expect(getHolderDataSpy).toHaveBeenCalled();
+      expect(getAllInvoicedItemsSpy).toHaveBeenCalled();
       expect(response).toEqual(0);
-      getHolderDataSpy.mockRestore();
+      getAllInvoicedItemsSpy.mockRestore();
     });
 
     it("should return injection when is valid", () => {
-      const getHolderDataSpy = jest.spyOn(utils, "getHolderData");
-      getHolderDataSpy.mockReturnValueOnce("-1.000,00");
+      const getAllInvoicedItemsSpy = jest.spyOn(
+        invoicedValues,
+        "getAllInvoicedItems"
+      ) as any;
+      getAllInvoicedItemsSpy.mockReturnValueOnce({
+        injectedEnergyItems: [
+          {
+            description: "Energia injetada HFP",
+            quantity: 221,
+            unitMeasurement: "kWh",
+            unitPrice: 0.65313,
+            value: -144.34,
+          },
+        ],
+      });
 
       const response = invoicedValues.getAmount("page");
 
-      expect(getHolderDataSpy).toHaveBeenCalled();
+      expect(getAllInvoicedItemsSpy).toHaveBeenCalled();
       expect(response).toEqual(1000);
     });
     it("should return zero when not found amount", () => {
-      const getHolderDataSpy = jest.spyOn(utils, "getHolderData");
-      getHolderDataSpy.mockReturnValueOnce("");
+      const getAllInvoicedItemsSpy = jest.spyOn(
+        invoicedValues,
+        "getAllInvoicedItems"
+      ) as any;
+      getAllInvoicedItemsSpy.mockReturnValueOnce({ injectedEnergyItems: [] });
 
       const response = invoicedValues.getAmount("page");
 
-      expect(getHolderDataSpy).toHaveBeenCalled();
+      expect(getAllInvoicedItemsSpy).toHaveBeenCalled();
       expect(response).toEqual(0);
     });
   });

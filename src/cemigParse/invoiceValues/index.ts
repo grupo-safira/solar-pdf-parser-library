@@ -158,10 +158,7 @@ export function getInvoicedItemsUnitTariff(
   return invoicedItemsUnitTariff;
 }
 export function getAmount(page: TFileToParse) {
-  const amount =
-    getHolderData(page, 18.5, 19.3, 15.3, 15.8)
-      .replace(".", "")
-      .replace(",", ".") || "0";
+  const amount = getAllInvoicedItems(page).injectedEnergyItems[0]?.value || "0";
   const amountTreated = Number(amount) * -1;
   return amountTreated > 0 ? amountTreated : 0;
 }

@@ -60,6 +60,17 @@ export function getAllInvoicedItems(page: TFileToParse): IInvoicedItems {
       unitPrice: parseFloat(invoicedItemsUnitPrice[i]) || 0,
     };
     const invoiceItem = invoicedItems[i].field.toUpperCase();
+
+    const compensatedDescriptions = [
+      "EN COMP. S/ ICMS",
+      "EN COMP. ISENTA",
+      "ENERGIA SCEE S/ ICMS",
+      "ENERGIA SCEE ISENTA",
+    ];
+    const injectedDescriptions = [
+      "ENERGIA INJETADA HFP",
+      "ENERGIA COMPENSADA GD I",
+    ];
     switch (true) {
       case invoiceItem === "TOTAL":
         continue;
@@ -74,12 +85,11 @@ export function getAllInvoicedItems(page: TFileToParse): IInvoicedItems {
         energyDistributorItems.push(energy);
         continue;
 
-      case invoiceItem === "EN COMP. S/ ICMS" ||
-        invoiceItem === "EN COMP. ISENTA":
+      case compensatedDescriptions.includes(invoiceItem):
         compensatedEnergyItems.push(energyDefaultValues);
         continue;
 
-      case invoiceItem === "ENERGIA INJETADA HFP":
+      case injectedDescriptions.includes(invoiceItem):
         injectedEnergyItems.push(energyDefaultValues);
         continue;
 
@@ -116,6 +126,7 @@ export function getInvoicedItemsUnit(invoicedItems: any, page: TFileToParse) {
   }
   return unitInvoicedItems;
 }
+
 export function getInvoicedItemsQuantity(
   invoicedItems: any,
   page: TFileToParse
@@ -127,6 +138,7 @@ export function getInvoicedItemsQuantity(
   }
   return invoicedItemsQuant;
 }
+
 export function getInvoicedItemsUnitPrice(
   invoicedItems: any,
   page: TFileToParse
@@ -138,6 +150,7 @@ export function getInvoicedItemsUnitPrice(
   }
   return invoicedItemsUnitPrice;
 }
+
 export function getInvoicedItemsValue(invoicedItems: any, page: TFileToParse) {
   let invoicedItemsValue = [];
   for (let i of invoicedItems) {
@@ -146,6 +159,7 @@ export function getInvoicedItemsValue(invoicedItems: any, page: TFileToParse) {
   }
   return invoicedItemsValue;
 }
+
 export function getInvoicedItemsUnitTariff(
   invoicedItems: any,
   page: TFileToParse
@@ -157,6 +171,7 @@ export function getInvoicedItemsUnitTariff(
   }
   return invoicedItemsUnitTariff;
 }
+
 export function getAmount(page: TFileToParse) {
   const amount = getAllInvoicedItems(page).injectedEnergyItems[0]?.value || "0";
   const amountTreated = Number(amount) * -1;
@@ -190,6 +205,7 @@ export function getTotalInvoice(page: TFileToParse) {
 export function getBankSlip(page: TFileToParse) {
   return getHolderData(page, 16, 17, 47, 48);
 }
+
 export function getAutomaticDebt(page: TFileToParse) {
   return getHolderData(page, 7, 10, 46, 47, 1);
 }
